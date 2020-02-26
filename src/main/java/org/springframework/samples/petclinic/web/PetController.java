@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.web;
+
+import java.util.Collection;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
@@ -25,11 +30,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import java.util.Collection;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -40,12 +46,13 @@ import java.util.Collection;
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
 
-	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+	private static final String	VIEWS_PETS_CREATE_OR_UPDATE_FORM	= "pets/createOrUpdatePetForm";
 
-	private final ClinicService clinicService;
+	private final ClinicService	clinicService;
+
 
 	@Autowired
-	public PetController(ClinicService clinicService) {
+	public PetController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
 
@@ -55,38 +62,37 @@ public class PetController {
 	}
 
 	@ModelAttribute("owner")
-	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+	public Owner findOwner(@PathVariable("ownerId") final int ownerId) {
 		return this.clinicService.findOwnerById(ownerId);
 	}
 
 	@InitBinder("owner")
-	public void initOwnerBinder(WebDataBinder dataBinder) {
+	public void initOwnerBinder(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
 	@InitBinder("pet")
-	public void initPetBinder(WebDataBinder dataBinder) {
+	public void initPetBinder(final WebDataBinder dataBinder) {
 		dataBinder.setValidator(new PetValidator());
 	}
 
 	@GetMapping(value = "/pets/new")
-	public String initCreationForm(Owner owner, ModelMap model) {
+	public String initCreationForm(final Owner owner, final ModelMap model) {
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		model.put("pet", pet);
-		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/pets/new")
-	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
+	public String processCreationForm(final Owner owner, @Valid final Pet pet, final BindingResult result, final ModelMap model) {
 		if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}
 		if (result.hasErrors()) {
 			model.put("pet", pet);
-			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+			return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		} else {
 			owner.addPet(pet);
 			this.clinicService.savePet(pet);
 			return "redirect:/owners/{ownerId}";
@@ -94,23 +100,32 @@ public class PetController {
 	}
 
 	@GetMapping(value = "/pets/{petId}/edit")
-	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("petId") final int petId, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
 		model.put("pet", pet);
-		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/pets/{petId}/edit")
-	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
+	public String processUpdateForm(@Valid final Pet pet, final BindingResult result, final Owner owner, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
-			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+			return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		} else {
 			owner.addPet(pet);
 			this.clinicService.savePet(pet);
 			return "redirect:/owners/{ownerId}";
 		}
+	}
+
+	//Añadir el boton "remove pet"
+
+	@GetMapping(value = "/pets/{petId}/remove")
+	public String processDelete(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
+		Pet pet = this.clinicService.findPetById(petId);
+		owner.removePet(pet);
+		this.clinicService.removePet(pet);
+		return "redirect:/owners/{ownerId}";
 	}
 
 }
