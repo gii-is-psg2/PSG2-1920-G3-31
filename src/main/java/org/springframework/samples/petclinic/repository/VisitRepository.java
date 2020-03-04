@@ -46,10 +46,19 @@ public interface VisitRepository {
 
 	List<Visit> findByPetId(Integer petId);
 
-	//Visit findVisitByVisitId(Integer visitId) throws DataAccessException;
+	/**
+	 * Retrieve a <code>Visit</code> from the data store by id.
+	 *
+	 * @param id
+	 *            the id to search for
+	 * @return the <code>Visit</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException
+	 *             if not found
+	 */
+	Visit findById(int id) throws DataAccessException;
 
 	/**
-	 * Delete an <code>Visit</code> to the data store.
+	 * Delete a <code>Visit</code> to the data store.
 	 *
 	 * @param visit
 	 *            the <code>Visit</code> to delete

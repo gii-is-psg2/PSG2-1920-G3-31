@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,14 +97,13 @@ public class VisitController {
 	}
 
 	//Añadir el boton "delete visit"
-	/*
-	 * @GetMapping(value = "/owners/{ownerId}/pets/{petId}/removeVisit/{visitId}")
-	 * public String processDelete(@PathVariable("petId") final int petId, @PathVariable("visitId") final int visitId, final ModelMap model) {
-	 * Pet pet = this.clinicService.findPetById(petId);
-	 * Visit visit = this.clinicService.findVisitById(visitId);
-	 * pet.deleteVisit(visit);
-	 * this.clinicService.deleteVisit(visit);
-	 * return "redirect:/owners/{ownerId}";
-	 * }
-	 */
+
+	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/deleteVisit/{visitId}")
+	public String processDelete(@PathVariable("visitId") final int visitId, final Pet pet, final ModelMap model) {
+		Visit visit = this.clinicService.findVisitById(visitId);
+		pet.deleteVisit(visit);
+		this.clinicService.deleteVisit(visit);
+		return "redirect:/owners/{ownerId}";
+	}
+
 }
