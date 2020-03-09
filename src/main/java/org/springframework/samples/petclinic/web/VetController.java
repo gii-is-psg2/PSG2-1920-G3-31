@@ -16,13 +16,25 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+
+import javax.validation.Valid;
 
 /**
  * @author Juergen Hoeller
@@ -34,6 +46,8 @@ import java.util.Map;
 public class VetController {
 
 	private final ClinicService clinicService;
+	
+	private static final String	VIEWS_VETS_CREATE_OR_UPDATE_FORM	= "vets/createOrUpdateVetForm";
 
 	@Autowired
 	public VetController(ClinicService clinicService) {
@@ -59,6 +73,56 @@ public class VetController {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
+	}
+	
+	@GetMapping(value = "/vets/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Vet vet = new Vet();
+		model.put("vet", vet);
+		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
+	
+	@PostMapping(value = "/vets/new")
+	public String processCreationForm(@Valid final Vet vet, final BindingResult result, final ModelMap model) {
+		if (result.hasErrors()) {
+			model.put("vet", vet);
+			return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+		} else {
+			this.clinicService.saveVet(vet);
+			return "redirect:/vets/";
+		}
+	}
+	
+	@GetMapping("/vets/{vetId}")
+	public ModelAndView showVet(@PathVariable("vetId") int vetId) {
+		ModelAndView mav = new ModelAndView("vets/vetDetails");
+		mav.addObject(this.clinicService.findVetById(vetId));
+		return mav;
+	}
+	
+	@GetMapping(value = "/vets/{vetId}/edit")
+	public String initUpdateVetForm(@PathVariable("vetId") int vetId, Model model) {
+		Vet vet = this.clinicService.findVetById(vetId);
+		model.addAttribute(vet);
+		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/vets/{vetId}/edit")
+	public String processUpdateVetForm(@Valid Vet vet, BindingResult result,
+			@PathVariable("vetId") int vetId) {
+		if (result.hasErrors()) {
+			return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			vet.setId(vetId);
+			this.clinicService.saveVet(vet);
+			return "redirect:/vets/{vetId}";
+		}
 	}
 
 }
