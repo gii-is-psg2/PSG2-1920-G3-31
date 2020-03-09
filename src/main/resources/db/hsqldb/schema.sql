@@ -67,8 +67,8 @@ CREATE TABLE booking (
 	id          INTEGER IDENTITY PRIMARY KEY,
   	pet_id      INTEGER NOT NULL,
   	start_date  DATE,
-  	finish_date DATE,
+  	finish_date DATE
 );
 ALTER TABLE booking ADD CONSTRAINT fk_booking_pets FOREIGN KEY (pet_id) REFERENCES pets (id);
-CREATE INDEX booking_pet_id ON visits (pet_id);
+CREATE INDEX booking_pet_id ON booking (pet_id);
 
