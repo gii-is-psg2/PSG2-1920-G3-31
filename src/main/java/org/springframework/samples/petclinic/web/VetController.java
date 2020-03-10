@@ -17,6 +17,8 @@ package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -27,12 +29,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -52,6 +60,11 @@ public class VetController {
 	@Autowired
 	public VetController(ClinicService clinicService) {
 		this.clinicService = clinicService;
+	}
+	
+	@ModelAttribute("specialties")
+	public Collection<Specialty> populateSpecialties() {
+		return this.clinicService.findSpecialties();
 	}
 
 	@GetMapping(value = { "/vets" })
@@ -78,6 +91,11 @@ public class VetController {
 	@GetMapping(value = "/vets/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Vet vet = new Vet();
+		Set<Specialty> specialty = this.clinicService.findSpecialties();
+		
+		for (Specialty s : specialty) {
+			vet.addSpecialty(s);
+		}
 		model.put("vet", vet);
 		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -124,5 +142,7 @@ public class VetController {
 			return "redirect:/vets/{vetId}";
 		}
 	}
+	
+	
 
 }
