@@ -52,10 +52,10 @@ public class ClinicService {
 
 	private VisitRepository	visitRepository;
 
-	private BookingRepository	bookingRepository;
+	private BookingRepository bookingRepository;
 
 	@Autowired
-	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository) {
+	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final BookingRepository bookingRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
 		this.ownerRepository = ownerRepository;
@@ -117,9 +117,9 @@ public class ClinicService {
 	public void saveBooking(final Booking booking) throws DataAccessException {
 		this.bookingRepository.save(booking);
 	}
-	
+
 	@Transactional(readOnly = true)
-	public Booking findBookingByPetId(int petId) {
+	public Booking findBookingByPetId(final int petId) {
 		return bookingRepository.findByPetId(petId);
 	}
 

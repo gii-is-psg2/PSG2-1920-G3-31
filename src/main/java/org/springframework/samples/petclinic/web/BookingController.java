@@ -57,18 +57,18 @@ public class BookingController {
 	public Booking loadPetWithBooking(@PathVariable("petId") int petId) {
 		Pet pet = this.clinicService.findPetById(petId);
 		Booking booking = new Booking();
-		pet.setBooking(booking);
+        pet.addBooking(booking);
 		return booking;
 	}
 
 	// Spring MVC calls method loadPetWithBooking(...) before initNewVisitForm is called
-	@GetMapping(value = "/owners/*/pets/{petId}/booking/new")
+	@GetMapping(value = "/owners/*/pets/{petId}/bookings/new")
 	public String initNewBookingForm(@PathVariable("petId") int petId, Map<String, Object> model) {
 		return "pets/createOrUpdateBookingForm";
 	}
 
 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
-	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/booking/new")
+	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/bookings/new")
 	public String processNewBookingForm(@Valid Booking booking, BindingResult result) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateBookingForm";
@@ -79,9 +79,9 @@ public class BookingController {
 		}
 	}
 
-	@GetMapping(value = "/owners/*/pets/{petId}/booking")
+	@GetMapping(value = "/owners/*/pets/{petId}/bookings")
 	public String showBooking(@PathVariable int petId, Map<String, Object> model) {
-		model.put("booking", this.clinicService.findPetById(petId).getBooking());
+		model.put("booking", this.clinicService.findPetById(petId).getBookings());
 		return "booking";
 	}
 

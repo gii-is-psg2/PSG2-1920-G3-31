@@ -9,7 +9,9 @@
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#startDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#finishDate").datepicker({dateFormat: 'yy/mm/dd'});
+
             });
         </script>
     </jsp:attribute>
@@ -29,8 +31,6 @@
             </thead>
             <tr>
                 <td><c:out value="${booking.pet.name}"/></td>
-                <td><petclinic:localDate date="${booking.pet.startDate}" pattern="yyyy/MM/dd"/></td>
-               	<td><petclinic:localDate date="${booking.pet.finishDate}" pattern="yyyy/MM/dd"/></td>
                 <td><c:out value="${booking.pet.type.name}"/></td>
                 <td><c:out value="${booking.pet.owner.firstName} ${booking.pet.owner.lastName}"/></td>
             </tr>
