@@ -25,6 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/**").permitAll()
+				.antMatchers("/owners/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/**").permitAll().and()
 				// .formLogin()
 				// .loginPage("/login").failureUrl("/login-error")

@@ -30,6 +30,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.support.MutableSortDefinition;
@@ -62,8 +63,10 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit>	visits;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+    private Set<Booking> bookings;
 
-	public void setBirthDate(final LocalDate birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -109,6 +112,27 @@ public class Pet extends NamedEntity {
 		visit.setPet(this);
 	}
 
+    protected Set<Booking> getBookingsInternal() {
+        if (this.bookings == null) {
+            this.bookings = new HashSet<>();
+        }
+        return this.bookings;
+    }
+
+    protected void setBookingsInternal(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Booking> getBookings() {
+        List<Booking> sortedBookings = new ArrayList<>(getBookingsInternal());
+        PropertyComparator.sort(sortedBookings, new MutableSortDefinition("date", false, false));
+        return Collections.unmodifiableList(sortedBookings);
+    }
+
+    public void addBooking(Booking booking) {
+        getBookingsInternal().add(booking);
+        booking.setPet(this);
+    }
 	public void deleteVisit(final Visit visit) {
 		this.getVisitsInternal().remove(visit);
 	}
