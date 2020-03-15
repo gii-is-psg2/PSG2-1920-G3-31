@@ -1,7 +1,9 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="vets">
@@ -12,19 +14,29 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${vets.vetList}" var="vet">
             <tr>
                 <td>
-                    <c:out value="${vet.firstName} ${vet.lastName}"/>
+                    <spring:url value="/vets/{vetId}" var="vetUrl">
+                        <spring:param name="vetId" value="${vet.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(vetUrl)}"><c:out value="${vet.firstName} ${vet.lastName}"/></a>
                 </td>
                 <td>
                     <c:forEach var="specialty" items="${vet.specialties}">
                         <c:out value="${specialty.name} "/>
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
+                </td>
+                <td>
+                    <spring:url value="/vets/{vetId}/deleteVet" var="deleteVetUrl">
+                    	<spring:param name="vetId" value="${vet.id}"/>
+                    </spring:url>
+                	<a href="${fn:escapeXml(deleteVetUrl)}">Delete Vet</a>
                 </td>
             </tr>
         </c:forEach>
@@ -38,4 +50,6 @@
             </td>            
         </tr>
     </table>
+    <br/>
+    <a class="btn btn-default" href='<spring:url value="/vets/new" htmlEscape="true"/>'>Add Vet</a>
 </petclinic:layout>

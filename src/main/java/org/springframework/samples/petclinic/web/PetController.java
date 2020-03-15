@@ -120,11 +120,11 @@ public class PetController {
 
 	//Añadir el boton "remove pet"
 
-	@GetMapping(value = "/pets/{petId}/remove")
+	@GetMapping(value = "/pets/{petId}/removePet")
 	public String processDelete(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
-		owner.removePet(pet);
-		this.clinicService.removePet(pet);
+		owner.deletePet(pet);
+		this.clinicService.deletePet(pet);
 		return "redirect:/owners/{ownerId}";
 	}
 
