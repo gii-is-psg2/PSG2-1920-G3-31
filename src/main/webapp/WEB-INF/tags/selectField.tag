@@ -10,6 +10,7 @@
 <%@ attribute name="size" required="true" rtexprvalue="true"
               description="Size of Select" %>
 
+
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>

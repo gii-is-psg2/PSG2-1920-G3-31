@@ -17,6 +17,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +25,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
@@ -63,10 +65,25 @@ public class ClinicService {
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return this.petRepository.findPetTypes();
 	}
+	
+	@Transactional
+    public Specialty findSpecialtyByName(String text) {
+        return this.vetRepository.findSpecialtiesByName(text);
+    }
+	
+	@Transactional(readOnly = true)
+	public List<Specialty> findSpecialties() throws DataAccessException {
+		return this.vetRepository.findSpecialties();
+	}
 
 	@Transactional(readOnly = true)
 	public Owner findOwnerById(final int id) throws DataAccessException {
 		return this.ownerRepository.findById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Vet findVetById(final int id) throws DataAccessException {
+		return this.vetRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
@@ -107,6 +124,10 @@ public class ClinicService {
 
 	public Collection<Visit> findVisitsByPetId(final int petId) {
 		return this.visitRepository.findByPetId(petId);
+	}
+	
+	public void saveVet(final Vet vet) throws DataAccessException {
+		this.vetRepository.save(vet);
 	}
 
 }
