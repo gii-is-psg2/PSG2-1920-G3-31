@@ -33,7 +33,6 @@
     <spring:url value="{vetId}/pets/new" var="addUrl">
         <spring:param name="vetId" value="${vet.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New Specialty</a>
 
     <br/>
 </petclinic:layout>

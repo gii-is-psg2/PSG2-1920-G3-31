@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -67,8 +66,13 @@ public class ClinicService {
 		return this.petRepository.findPetTypes();
 	}
 	
+	@Transactional
+    public Specialty findSpecialtyByName(String text) {
+        return this.vetRepository.findSpecialtiesByName(text);
+    }
+	
 	@Transactional(readOnly = true)
-	public Set<Specialty> findSpecialties() throws DataAccessException {
+	public List<Specialty> findSpecialties() throws DataAccessException {
 		return this.vetRepository.findSpecialties();
 	}
 

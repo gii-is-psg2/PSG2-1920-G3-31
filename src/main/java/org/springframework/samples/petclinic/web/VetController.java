@@ -15,9 +15,12 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
@@ -26,23 +29,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.validation.Valid;
 
 /**
  * @author Juergen Hoeller
@@ -66,6 +59,7 @@ public class VetController {
 	public Collection<Specialty> populateSpecialties() {
 		return this.clinicService.findSpecialties();
 	}
+	
 
 	@GetMapping(value = { "/vets" })
 	public String showVetList(Map<String, Object> model) {
@@ -91,26 +85,18 @@ public class VetController {
 	@GetMapping(value = "/vets/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Vet vet = new Vet();
-		Set<Specialty> specialty = this.clinicService.findSpecialties();
-		
-		for (Specialty s : specialty) {
-			vet.addSpecialty(s);
-		}
 		model.put("vet", vet);
 		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 	}
-	
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
-	}
+
 	
 	@PostMapping(value = "/vets/new")
-	public String processCreationForm(@Valid final Vet vet, final BindingResult result, final ModelMap model) {
+	public String processCreationForm(@RequestParam(name = "specialties", required = false) Specialty specialty, @Valid final Vet vet, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("vet", vet);
 			return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 		} else {
+			vet.addSpecialty(specialty);
 			this.clinicService.saveVet(vet);
 			return "redirect:/vets/";
 		}
@@ -131,13 +117,14 @@ public class VetController {
 	}
 	
 	@PostMapping(value = "/vets/{vetId}/edit")
-	public String processUpdateVetForm(@Valid Vet vet, BindingResult result,
+	public String processUpdateVetForm(@RequestParam(name = "specialties", required = false) Specialty specialty, @Valid Vet vet, BindingResult result,
 			@PathVariable("vetId") int vetId) {
 		if (result.hasErrors()) {
 			return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			vet.setId(vetId);
+			vet.addSpecialty(specialty);
 			this.clinicService.saveVet(vet);
 			return "redirect:/vets/{vetId}";
 		}
