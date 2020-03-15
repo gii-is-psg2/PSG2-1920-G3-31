@@ -106,14 +106,39 @@ public class ClinicService {
 		return this.petRepository.findById(id);
 	}
 
+	@Transactional(readOnly = true)
+	public Vet findVetById(final int vetId) throws DataAccessException {
+		return this.vetRepository.findById(vetId);
+	}
+
+	@Transactional(readOnly = true)
+	public Visit findVisitById(final int visitId) throws DataAccessException {
+		return this.visitRepository.findById(visitId);
+	}
+
 	@Transactional
 	public void savePet(final Pet pet) throws DataAccessException {
 		this.petRepository.save(pet);
 	}
 
 	@Transactional
-	public void removePet(final Pet pet) throws DataAccessException {
+	public void deletePet(final Pet pet) throws DataAccessException {
 		this.petRepository.delete(pet);
+	}
+
+	@Transactional
+	public void deleteOwner(final Owner owner) throws DataAccessException {
+		this.ownerRepository.delete(owner);
+	}
+
+	@Transactional
+	public void deleteVet(final Vet vet) throws DataAccessException {
+		this.vetRepository.delete(vet);
+	}
+
+	@Transactional
+	public void deleteVisit(final Visit visit) throws DataAccessException {
+		this.visitRepository.delete(visit);
 	}
 
 	@Transactional(readOnly = true)

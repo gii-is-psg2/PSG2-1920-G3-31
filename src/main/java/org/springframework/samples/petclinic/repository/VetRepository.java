@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+
+import org.springframework.samples.petclinic.model.BaseEntity;
+
 import org.springframework.samples.petclinic.model.Specialty;
+
 import org.springframework.samples.petclinic.model.Vet;
 
 /**
@@ -37,16 +42,36 @@ public interface VetRepository {
 
 	/**
 	 * Retrieve all <code>Vet</code>s from the data store.
+	 *
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
 	Collection<Vet> findAll() throws DataAccessException;
 
+	/**
+	 * Retrieve a <code>Vet</code> from the data store by id.
+	 *
+	 * @param id
+	 *            the id to search for
+	 * @return the <code>Vet</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException
+	 *             if not found
+	 */
+	Vet findById(int vetId) throws DataAccessException;
+
+	/**
+	 * Delete an <code>Vet</code> to the data store.
+	 *
+	 * @param vet
+	 *            the <code>Vet</code> to delete
+	 * @see BaseEntity#isNew
+	 */
+	void delete(Vet vet) throws DataAccessException;
+
 	void save(Vet vet) throws DataAccessException;
-	
-	Vet findById(int id) throws DataAccessException;
 
 	List<Specialty> findSpecialties() throws DataAccessException;
 
 	Specialty findSpecialtiesByName(String text);
+
 
 }
