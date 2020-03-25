@@ -52,4 +52,11 @@ INSERT INTO visits VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO causes VALUES (1, 'Coronavirus', 'Descripcion', 400.0, 'Organizacion');
+INSERT INTO causes VALUES (2, 'Hantavirus', 'Descripcion', 200.0, 'Organizacion');
+INSERT INTO causes VALUES (3, 'Gripe normal', 'Descripcion', 800.0, 'Organizacion');
+INSERT INTO causes VALUES (4, 'Investigaciones en general', 'Descripcion', 1800.0, 'Organizacion');
 
+INSERT INTO donations VALUES (1, '2010-09-07', 30.0, 'Martín', 1);
+INSERT INTO donations VALUES (2, '2010-09-07', 50.0, 'Arturo', 1);
+INSERT INTO donations VALUES (3, '2010-09-07', 70.0, 'Eugenio', 2);
