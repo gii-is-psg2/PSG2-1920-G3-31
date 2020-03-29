@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -70,6 +72,8 @@ public class BookingController {
 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/bookings/new")
 	public String processNewBookingForm(@Valid Booking booking, BindingResult result) {
+		result = validateBooking(booking, result);
+		
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateBookingForm";
 		}
@@ -77,6 +81,22 @@ public class BookingController {
 			this.clinicService.saveBooking(booking);
 			return "redirect:/owners/{ownerId}";
 		}
+	}
+
+	private BindingResult validateBooking(@Valid Booking booking, BindingResult result) {
+		Booking lastBooking = null;
+		Pet pet = this.clinicService.findPetById(booking.getPet().getId());
+		booking.getPet();
+		int tam = pet.getBookings().size();
+		if(tam>1) {
+			lastBooking = pet.getBookings().get(tam-2);
+			if(booking.getStartDate().isBefore(lastBooking.getFinishDate()))
+				result.rejectValue("startDate", "invalidBooking","La fecha inicial debe ser posterior a la fecha de finalización de la última reserva");
+		}
+		if(booking.getFinishDate().isBefore(booking.getStartDate())) {
+			result.rejectValue("finishDate", "invalidBooking","La fecha de finalización debe ser posterior a la de comienzo");
+		}
+		return result;
 	}
 
 	@GetMapping(value = "/owners/*/pets/{petId}/bookings")

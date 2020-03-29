@@ -92,7 +92,7 @@
                         </thead>
                         <c:forEach var="booking" items="${pet.bookings}" begin="0" end="0">
                             <jsp:useBean id="now" class="java.util.Date" />
-                            <fmt:parseDate value="${booking.startDate}" var="parsedStartDate" pattern="yyyy-MM-dd" />
+                            <fmt:parseDate value="${booking.finishDate}" var="parsedStartDate" pattern="yyyy-MM-dd" />
                             <c:if test="${parsedStartDate.time gt now.time}">
                             <tr>
                                 <td><petclinic:localDate date="${booking.startDate}" pattern="yyyy-MM-dd"/></td>
