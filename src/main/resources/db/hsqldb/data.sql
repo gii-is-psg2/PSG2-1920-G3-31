@@ -57,6 +57,6 @@ INSERT INTO causes VALUES (2, 'Hantavirus', 'Descripcion', 200.0, 'Organizacion'
 INSERT INTO causes VALUES (3, 'Gripe normal', 'Descripcion', 800.0, 'Organizacion');
 INSERT INTO causes VALUES (4, 'Investigaciones en general', 'Descripcion', 1800.0, 'Organizacion');
 
-INSERT INTO donations VALUES (1, '2010-09-07', 30.0, 'Martín', 1);
-INSERT INTO donations VALUES (2, '2010-09-07', 50.0, 'Arturo', 1);
-INSERT INTO donations VALUES (3, '2010-09-07', 70.0, 'Eugenio', 2);
+INSERT INTO donations VALUES (1, '2010-09-07', 30.0, 'Martín Juan Blanco', 1);
+INSERT INTO donations VALUES (2, '2010-09-07', 50.0, 'Arturo Prada Toro', 1);
+INSERT INTO donations VALUES (3, '2010-09-07', 70.0, 'Eugenio Cuevas Llamas', 2);

@@ -24,6 +24,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Booking;
 import org.springframework.samples.petclinic.model.Cause;
+import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -32,6 +33,7 @@ import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.BookingRepository;
 import org.springframework.samples.petclinic.repository.CauseRepository;
+import org.springframework.samples.petclinic.repository.DonationRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -59,6 +61,8 @@ public class ClinicService {
 	private BookingRepository bookingRepository;
 	
 	private CauseRepository causeRepository;
+	
+	private DonationRepository donationRepository;
 
 	@Autowired
 	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, 
@@ -181,4 +185,8 @@ public class ClinicService {
 		return bookingRepository.findByPetId(petId);
 	}
 
+	@Transactional
+	public void saveDonation(final Donation donation) throws DataAccessException {
+		this.donationRepository.saveDonation(donation);
+	}
 }

@@ -35,5 +35,5 @@
             </td>
         </tr>
     </table>
-	<a class="btn btn-default" href='<spring:url value="/donations/new" htmlEscape="true"/>'>Add Donation</a>
+	<a class="btn btn-default" href='<spring:url value="/donations/createForm" htmlEscape="true"/>'>Add Donation</a>
 </petclinic:layout>
