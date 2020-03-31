@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Booking;
+import org.springframework.samples.petclinic.model.Cause;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -30,6 +31,7 @@ import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.BookingRepository;
+import org.springframework.samples.petclinic.repository.CauseRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -55,14 +57,19 @@ public class ClinicService {
 	private VisitRepository	visitRepository;
 
 	private BookingRepository bookingRepository;
+	
+	private CauseRepository causeRepository;
 
 	@Autowired
-	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final BookingRepository bookingRepository) {
+	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, 
+			final OwnerRepository ownerRepository, final VisitRepository visitRepository, 
+			final BookingRepository bookingRepository, final CauseRepository causeRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
 		this.ownerRepository = ownerRepository;
 		this.visitRepository = visitRepository;
 		this.bookingRepository = bookingRepository;
+		this.causeRepository = causeRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -78,6 +85,16 @@ public class ClinicService {
 	@Transactional(readOnly = true)
 	public List<Specialty> findSpecialties() throws DataAccessException {
 		return this.vetRepository.findSpecialties();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Cause> findCauses() throws DataAccessException {
+		return this.causeRepository.findAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public Cause findCauseById(final int id) throws DataAccessException {
+		return this.causeRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
