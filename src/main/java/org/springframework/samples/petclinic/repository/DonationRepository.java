@@ -5,5 +5,6 @@ import org.springframework.samples.petclinic.model.Donation;
 
 public interface DonationRepository {
 	
-	void saveDonation(Donation donation) throws DataAccessException;
+	void save(Donation donation) throws DataAccessException;
+	
 }

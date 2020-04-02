@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,7 +22,7 @@ public class Donation extends BaseEntity {
 	private LocalDate		dateDonation;
 
 	@Column(name = "amount")
-	@NotEmpty
+	@NotNull
 	private Double		amount;
 
 	@Column(name = "client")
@@ -59,7 +60,7 @@ public class Donation extends BaseEntity {
 	}
 
 	public Cause getCause() {
-		return cause;
+		return this.cause;
 	}
 
 	public void setCause(Cause cause) {

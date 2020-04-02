@@ -30,10 +30,15 @@
         	<th>Donations</th>
         	<td>
         	<c:forEach var="donation" items="${cause.donations}">
-            	<c:out value="${donation.amount} Euros donados por ${donation.client}"/><br/>
+            	<c:out value="${donation.amount} Euros donados por ${donation.client} el dia ${donation.dateDonation}"/><br/>
             </c:forEach>
             </td>
         </tr>
     </table>
-	<a class="btn btn-default" href='<spring:url value="/donations/createForm" htmlEscape="true"/>'>Add Donation</a>
+	<td>
+        <spring:url value="/causes/{causeId}/donations/new" var="donationUrl">
+        	<spring:param name="causeId" value="${cause.id}"/>
+        </spring:url>
+    	<a class="btn btn-default" href="${fn:escapeXml(donationUrl)}">Add Donation</a>
+    </td>
 </petclinic:layout>

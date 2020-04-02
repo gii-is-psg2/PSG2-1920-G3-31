@@ -67,13 +67,14 @@ public class ClinicService {
 	@Autowired
 	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, 
 			final OwnerRepository ownerRepository, final VisitRepository visitRepository, 
-			final BookingRepository bookingRepository, final CauseRepository causeRepository) {
+			final BookingRepository bookingRepository, final CauseRepository causeRepository, final DonationRepository donationRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
 		this.ownerRepository = ownerRepository;
 		this.visitRepository = visitRepository;
 		this.bookingRepository = bookingRepository;
 		this.causeRepository = causeRepository;
+		this.donationRepository = donationRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -186,7 +187,7 @@ public class ClinicService {
 	}
 
 	@Transactional
-	public void saveDonation(final Donation donation) throws DataAccessException {
-		this.donationRepository.saveDonation(donation);
+	public void saveDonation(Donation donation) throws DataAccessException {
+		this.donationRepository.save(donation);
 	}
 }

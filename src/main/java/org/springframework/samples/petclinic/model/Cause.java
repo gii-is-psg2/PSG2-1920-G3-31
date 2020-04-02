@@ -16,6 +16,10 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,6 +29,9 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 
 @Entity
 @Table(name = "causes")
@@ -83,12 +90,26 @@ public class Cause extends BaseEntity {
 		this.organization = organization;
 	}
 
-	public Set<Donation> getDonations() {
-		return donations;
+	protected Set<Donation> getDonationsInternal() {
+		if (this.donations == null) {
+			this.donations = new HashSet<>();
+		}
+		return this.donations;
 	}
 
-	public void setDonations(Set<Donation> donations) {
+	protected void setDonationsInternal(final Set<Donation> donations) {
 		this.donations = donations;
+	}
+
+	public List<Donation> getDonations() {
+		List<Donation> sortedDonations = new ArrayList<>(this.getDonationsInternal());
+		PropertyComparator.sort(sortedDonations, new MutableSortDefinition("dateDonation", false, false));
+		return Collections.unmodifiableList(sortedDonations);
+	}
+
+	public void addDonation(final Donation donation) {
+		this.getDonationsInternal().add(donation);
+		donation.setCause(this);
 	}
 	
 	// Derived properties
