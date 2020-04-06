@@ -19,6 +19,8 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -189,5 +191,9 @@ public class ClinicService {
 	@Transactional
 	public void saveDonation(Donation donation) throws DataAccessException {
 		this.donationRepository.save(donation);
+	}
+
+	public void saveCause(@Valid Cause cause) {
+		this.causeRepository.save(cause);		
 	}
 }
