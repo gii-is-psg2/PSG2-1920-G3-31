@@ -32,6 +32,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Table(name = "causes")
@@ -46,7 +47,7 @@ public class Cause extends BaseEntity {
 	private String		description;
 
 	@Column(name = "budget_target")
-	@NotEmpty
+	@NumberFormat
 	private Double		budgetTarget;
 	
 	@Column(name = "organization")
