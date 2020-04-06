@@ -32,7 +32,7 @@ In the retrospective meeting, the team has a discussion about those results.
 
 ## Sprint Template
 
-| Day           | [Member A]    | [Member B]     | [Member C]     | [Member D]     | [Member E]     | [Member F]     |
+| Day           |    Alonso     |   Enrique J.   |   Enrique P.   |      Jesús     |   Martín A.    |     Sergio     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
 | Day 1         |               |                |                |                |                |                |
 | Day 2         |               |                |                |                |                |                |
