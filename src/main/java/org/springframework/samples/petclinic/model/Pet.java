@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -125,7 +126,7 @@ public class Pet extends NamedEntity {
 
     public List<Booking> getBookings() {
         List<Booking> sortedBookings = new ArrayList<>(getBookingsInternal());
-        PropertyComparator.sort(sortedBookings, new MutableSortDefinition("date", false, false));
+        PropertyComparator.sort(sortedBookings, new MutableSortDefinition("startDate", false, false));
         return Collections.unmodifiableList(sortedBookings);
     }
 

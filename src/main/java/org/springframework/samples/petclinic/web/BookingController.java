@@ -84,18 +84,23 @@ public class BookingController {
 	}
 
 	private BindingResult validateBooking(@Valid Booking booking, BindingResult result) {
-		Booking lastBooking = null;
 		Pet pet = this.clinicService.findPetById(booking.getPet().getId());
-		booking.getPet();
-		int tam = pet.getBookings().size();
-		if(tam>1) {
-			lastBooking = pet.getBookings().get(tam-2);
-			if(booking.getStartDate().isBefore(lastBooking.getFinishDate()))
-				result.rejectValue("startDate", "invalidBooking","La fecha inicial debe ser posterior a la fecha de finalización de la última reserva");
+		long count = 0L;
+		if(booking.getStartDate() == null)
+			result.rejectValue("startDate", "invalidBooking", "Introduzca una fecha de comienzo");
+		else if(booking.getFinishDate() == null)
+			result.rejectValue("finishDate", "invalidBooking", "Introduzca una fecha de finalización");
+		else {
+			if(pet.getBookings().size()>1) {
+				count = pet.getBookings().stream().filter(b -> !booking.getStartDate().isAfter(b.getFinishDate())).count();
+				if(count>1)
+					result.rejectValue("startDate", "invalidBooking", "La fecha inicial debe ser posterior a la fecha de finalización de la última reserva");
+			}
+			if(booking.getFinishDate().isBefore(booking.getStartDate())) {
+				result.rejectValue("finishDate", "invalidBooking", "La fecha de finalización debe ser posterior a la de comienzo");
+			}
 		}
-		if(booking.getFinishDate().isBefore(booking.getStartDate())) {
-			result.rejectValue("finishDate", "invalidBooking","La fecha de finalización debe ser posterior a la de comienzo");
-		}
+		
 		return result;
 	}
 
