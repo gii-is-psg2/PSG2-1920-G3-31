@@ -39,6 +39,8 @@
         <spring:url value="/causes/{causeId}/donations/new" var="donationUrl">
         	<spring:param name="causeId" value="${cause.id}"/>
         </spring:url>
+        <c:if test="${cause.isOpen}">
     	<a class="btn btn-default" href="${fn:escapeXml(donationUrl)}">Add Donation</a>
+    	</c:if>
     </td>
 </petclinic:layout>
