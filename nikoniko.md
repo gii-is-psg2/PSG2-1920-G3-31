@@ -34,8 +34,8 @@ In the retrospective meeting, the team has a discussion about those results.
 
 | Day           |    Alonso     |   Enrique J.   |   Enrique P.   |      Jesús     |   Martín A.    |     Sergio     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| Day 1         |   :smiley:    |                |                |                |   :smiley:     | :neutral_face: |
-| Day 2         |               |                |                |                | :neutral_face: | :smiley:       |
+| Day 1         |   :smiley:    |                |                |    :smiley:    |   :smiley:     | :neutral_face: |
+| Day 2         |               |                |                |    :smiley:    | :neutral_face: | :smiley:       |
 | Day 3         |   :smiley:    |                |                |                |                |                |
 | Day 4         |               |                |                |                |                |                |
 | Day 5         |               |                |                |                |                |                |
