@@ -34,9 +34,9 @@ In the retrospective meeting, the team has a discussion about those results.
 
 | Day           |    Alonso     |   Enrique J.   |   Enrique P.   |      Jesús     |   Martín A.    |     Sergio     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| Day 1         |               |                |                |                |   :smiley:     | :neutral_face: |
+| Day 1         |   :smiley:    |                |                |                |   :smiley:     | :neutral_face: |
 | Day 2         |               |                |                |                | :neutral_face: | :smiley:       |
-| Day 3         |               |                |                |                |                |                |
+| Day 3         |   :smiley:    |                |                |                |                |                |
 | Day 4         |               |                |                |                |                |                |
 | Day 5         |               |                |                |                |                |                |
 | Day 6         |               |                |                |                |                |                |
@@ -44,12 +44,12 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 8         |               |                |                |                |                |                |
 | Day 9         |               |                |                |                |                |                |
 | Day 10        |               |                |                |                |                |                |
-| Day 11        |               |                |                |                |                |                |
-| Day 12        |               |                |                |                |                |                |
+| Day 11        |   :worried:   |                |                |                |                |                |
+| Day 12        |:neutral_face: |                |                |                |                |                |
 | Day 13        |               |                |                |                |                |                |
 | Day 14        |               |                |                |                |                |                |
 | Day 15        |               |                |                |                |                |                |
-| Day 16        |               |                |                |                |                |                |
+| Day 16        |   :smiley:    |                |                |                |                |                |
 | Day 17        |               |                |                |                |                |                |
 | Day 18        |               |                |                |                |                |                |
 | Day 19        |               |                |                |                |                |                |
