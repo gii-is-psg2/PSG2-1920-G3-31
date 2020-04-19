@@ -119,4 +119,8 @@ public class Cause extends BaseEntity {
 		return donations.stream().mapToDouble(x -> x.getAmount()).sum();
 	}
 	
+	public Boolean getIsOpen() {
+		return getDonationAmount()<getBudgetTarget();
+	}
+	
 }
