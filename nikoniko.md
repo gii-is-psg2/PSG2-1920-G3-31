@@ -35,32 +35,7 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day           |    Alonso     |   Enrique J.   |   Enrique P.   |      Jesús     |   Martín A.    |     Sergio     |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
 | Day 1         |   :smiley:    |                |                |    :smiley:    |   :smiley:     | :neutral_face: |
-| Day 2         |               |                |                |    :smiley:    | :neutral_face: | :smiley:       |
+| Day 2         |:neutral_face: |                |                |    :smiley:    | :neutral_face: | :smiley:       |
 | Day 3         |   :smiley:    |                |                |                |                |                |
-| Day 4         |               |                |                |                |                |                |
-| Day 5         |               |                |                |                |                |                |
-| Day 6         |               |                |                |                |                |                |
-| Day 7         |               |                |                |                |                |                |
-| Day 8         |               |                |                |                |                |                |
-| Day 9         |               |                |                |                |                |                |
-| Day 10        |               |                |                |                |                |                |
-| Day 11        |   :worried:   |                |                |                |                |                |
-| Day 12        |:neutral_face: |                |                |                |                |                |
-| Day 13        |               |                |                |                |                |                |
-| Day 14        |               |                |                |                |                |                |
-| Day 15        |               |                |                |                |                |                |
-| Day 16        |   :smiley:    |                |                |                |                |                |
-| Day 17        |               |                |                |                |                |                |
-| Day 18        |               |                |                |                |                |                |
-| Day 19        |               |                |                |                |                |                |
-| Day 20        |               |                |                |                |                |                |
-| Day 21        |               |                |                |                |                |                |
-| Day 22        |               |                |                |                |                |                |
-| Day 23        |               |                |                |                |                |                |
-| Day 24        |               |                |                |                |                |                |
-| Day 25        |               |                |                |                |                |                |
-| Day 26        |               |                |                |                |                |                |
-| Day 27        |               |                |                |                |                |                |
-| Day 28        |               |                |                |                |                |                |
-| Day 29        |               |                |                |                |                |                |
-| Day 30        |               |                |                |                |                |                |
+| Day 4         |   :worried:   |                |                |                |                |                |
+| Day 5         |:neutral_face: |                |                |                |                |                |
