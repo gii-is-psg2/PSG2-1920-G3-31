@@ -109,7 +109,10 @@ public class ClinicService {
 		return this.ownerRepository.findById(id);
 	}
 
-
+	@Transactional(readOnly = true)
+	public Vet findVetById(final int id) throws DataAccessException {
+		return this.vetRepository.findById(id);
+	}
 
 	@Transactional(readOnly = true)
 	public Collection<Owner> findOwnerByLastName(final String lastName) throws DataAccessException {
