@@ -18,6 +18,8 @@ package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 
@@ -42,34 +44,14 @@ public interface VetRepository {
 
 	/**
 	 * Retrieve all <code>Vet</code>s from the data store.
-	 *
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
-	Collection<Vet> findAll() throws DataAccessException;
-
-	/**
-	 * Retrieve a <code>Vet</code> from the data store by id.
-	 *
-	 * @param id
-	 *            the id to search for
-	 * @return the <code>Vet</code> if found
-	 * @throws org.springframework.dao.DataRetrievalFailureException
-	 *             if not found
-	 */
-	Vet findById(int vetId) throws DataAccessException;
-
-	/**
-	 * Delete an <code>Vet</code> to the data store.
-	 *
-	 * @param vet
-	 *            the <code>Vet</code> to delete
-	 * @see BaseEntity#isNew
-	 */
-	void delete(Vet vet) throws DataAccessException;
-
-	void save(Vet vet) throws DataAccessException;
-
-	List<Specialty> findSpecialties() throws DataAccessException;
+    Vet findVetById(int id);
+	void save(Vet vet);
+	Set<Specialty> findSpecialties();
+	List<Vet> findAll();
+	void delete(Vet vet);
+	Optional<Vet> findOptVetById(int vetId);
 
 	Specialty findSpecialtiesByName(String text);
 

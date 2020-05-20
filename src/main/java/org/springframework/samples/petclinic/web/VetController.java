@@ -17,11 +17,13 @@
 package org.springframework.samples.petclinic.web;
 
 
+import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 import javax.validation.Valid;
@@ -58,7 +60,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class VetController {
 
 	private final ClinicService clinicService;
-	
+
 	private static final String	VIEWS_VETS_CREATE_OR_UPDATE_FORM	= "vets/createOrUpdateVetForm";
 
 
@@ -66,12 +68,12 @@ public class VetController {
 	public VetController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
-	
-	@ModelAttribute("specialties")
+
+	@ModelAttribute("listSpecialties")
 	public Collection<Specialty> populateSpecialties() {
 		return this.clinicService.findSpecialties();
 	}
-	
+
 
 	@GetMapping(value = {
 		"/vets"
@@ -97,56 +99,72 @@ public class VetController {
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
 	}
-	
+
 	@GetMapping(value = "/vets/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(final ModelMap model) {
 		Vet vet = new Vet();
 		model.put("vet", vet);
-		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+		model.addAttribute("specialties", new HashSet<>());
+		return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 	}
 
-	
 	@PostMapping(value = "/vets/new")
-	public String processCreationForm(@RequestParam(name = "specialties", required = false) Specialty specialty, @Valid final Vet vet, final BindingResult result, final ModelMap model) {
+	public String processCreationForm(@Valid final Vet vet, @RequestParam(name = "listSpecialties", required = false) final String specialties, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("vet", vet);
 			return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 		} else {
-			vet.addSpecialty(specialty);
+			if (specialties != null) {
+				String[] speNames = specialties.split(",");
+				Set<Specialty> selectedSpe = new HashSet<>();
+				for (String s : speNames) {
+					selectedSpe.add((Specialty) this.populateSpecialties().stream().filter(x -> x.getName().equals(s)).toArray()[0]);
+				}
+				for (Specialty spe : selectedSpe) {
+					vet.addSpecialty(spe);
+				}
+			}
 			this.clinicService.saveVet(vet);
-			return "redirect:/vets/";
+			return "redirect:/vets";
 		}
 	}
-	
+
 	@GetMapping("/vets/{vetId}")
 	public ModelAndView showVet(@PathVariable("vetId") int vetId) {
 		ModelAndView mav = new ModelAndView("vets/vetDetails");
 		mav.addObject(this.clinicService.findVetById(vetId));
 		return mav;
 	}
-	
+
 	@GetMapping(value = "/vets/{vetId}/edit")
-	public String initUpdateVetForm(@PathVariable("vetId") int vetId, Model model) {
+	public String initUpdateForm(@PathVariable("vetId") final int vetId, final ModelMap model) {
 		Vet vet = this.clinicService.findVetById(vetId);
-		model.addAttribute(vet);
-		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+		model.put("vet", vet);
+		return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
 	}
-	
+
 	@PostMapping(value = "/vets/{vetId}/edit")
-	public String processUpdateVetForm(@RequestParam(name = "specialties", required = false) Specialty specialty, @Valid Vet vet, BindingResult result,
-			@PathVariable("vetId") int vetId) {
+	public String processUpdateForm(@Valid final Vet vet, @RequestParam(name = "listSpecialties", required = false) final String specialties, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
-			return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			vet.setId(vetId);
-			vet.addSpecialty(specialty);
+			model.put("vet", vet);
+			return VetController.VIEWS_VETS_CREATE_OR_UPDATE_FORM;
+		} else {
+			if (specialties != null) {
+				String[] speNames = specialties.split(",");
+				Set<Specialty> selectedSpe = new HashSet<>();
+				for (String s : speNames) {
+					selectedSpe.add((Specialty) this.populateSpecialties().stream().filter(x -> x.getName().equals(s)).toArray()[0]);
+				}
+				for (Specialty spe : selectedSpe) {
+					vet.addSpecialty(spe);
+				}
+			}
 			this.clinicService.saveVet(vet);
-			return "redirect:/vets/{vetId}";
+			return "redirect:/vets";
 		}
 	}
-	
-	
+
+
 
 	//Añadir el boton "delete vet"
 

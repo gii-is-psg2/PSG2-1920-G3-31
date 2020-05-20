@@ -18,6 +18,8 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -61,14 +63,14 @@ public class ClinicService {
 	private VisitRepository	visitRepository;
 
 	private BookingRepository bookingRepository;
-	
+
 	private CauseRepository causeRepository;
-	
+
 	private DonationRepository donationRepository;
 
 	@Autowired
-	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, 
-			final OwnerRepository ownerRepository, final VisitRepository visitRepository, 
+	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository,
+			final OwnerRepository ownerRepository, final VisitRepository visitRepository,
 			final BookingRepository bookingRepository, final CauseRepository causeRepository, final DonationRepository donationRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
@@ -90,15 +92,15 @@ public class ClinicService {
     }
 
 	@Transactional(readOnly = true)
-	public List<Specialty> findSpecialties() throws DataAccessException {
+	public Set<Specialty> findSpecialties(){
 		return this.vetRepository.findSpecialties();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Collection<Cause> findCauses() throws DataAccessException {
 		return this.causeRepository.findAll();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Cause findCauseById(final int id) throws DataAccessException {
 		return this.causeRepository.findById(id);
@@ -109,9 +111,13 @@ public class ClinicService {
 		return this.ownerRepository.findById(id);
 	}
 
+	public Optional<Vet> findOptionalVetById(final int vetId) {
+		return this.vetRepository.findOptVetById(vetId);
+	}
+
 	@Transactional(readOnly = true)
-	public Vet findVetById(final int id) throws DataAccessException {
-		return this.vetRepository.findById(id);
+	public Vet findVetById(final int id){
+		return this.vetRepository.findVetById(id);
 	}
 
 	@Transactional(readOnly = true)
@@ -166,7 +172,7 @@ public class ClinicService {
 
 	@Transactional(readOnly = true)
 	@Cacheable(value = "vets")
-	public Collection<Vet> findVets() throws DataAccessException {
+	public Collection<Vet> findVets(){
 		return this.vetRepository.findAll();
 	}
 
@@ -174,7 +180,8 @@ public class ClinicService {
 		return this.visitRepository.findByPetId(petId);
 	}
 
-	public void saveVet(final Vet vet) throws DataAccessException {
+	@Transactional
+	public void saveVet(final Vet vet){
 		this.vetRepository.save(vet);
 	}
 
@@ -194,6 +201,6 @@ public class ClinicService {
 	}
 
 	public void saveCause(@Valid Cause cause) {
-		this.causeRepository.save(cause);		
+		this.causeRepository.save(cause);
 	}
 }
