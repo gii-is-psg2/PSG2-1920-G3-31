@@ -83,12 +83,12 @@ public class ClinicService {
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return this.petRepository.findPetTypes();
 	}
-	
+
 	@Transactional
     public Specialty findSpecialtyByName(String text) {
         return this.vetRepository.findSpecialtiesByName(text);
     }
-	
+
 	@Transactional(readOnly = true)
 	public List<Specialty> findSpecialties() throws DataAccessException {
 		return this.vetRepository.findSpecialties();
@@ -108,7 +108,7 @@ public class ClinicService {
 	public Owner findOwnerById(final int id) throws DataAccessException {
 		return this.ownerRepository.findById(id);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Vet findVetById(final int id) throws DataAccessException {
 		return this.vetRepository.findById(id);
@@ -173,7 +173,7 @@ public class ClinicService {
 	public Collection<Visit> findVisitsByPetId(final int petId) {
 		return this.visitRepository.findByPetId(petId);
 	}
-	
+
 	public void saveVet(final Vet vet) throws DataAccessException {
 		this.vetRepository.save(vet);
 	}
