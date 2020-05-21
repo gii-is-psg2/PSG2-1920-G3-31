@@ -99,6 +99,9 @@ public class BookingController {
 			if(booking.getFinishDate().isBefore(booking.getStartDate())) {
 				result.rejectValue("finishDate", "invalidBooking", "La fecha de finalización debe ser posterior a la de comienzo");
 			}
+			if(booking.getStartDate().isBefore(LocalDate.now())) {
+				result.rejectValue("startDate", "invalidBooking", "La fecha inicial debe ser posterior a la actual");
+			}
 		}
 		
 		return result;
