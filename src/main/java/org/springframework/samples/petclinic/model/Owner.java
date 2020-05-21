@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,6 +31,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetInstancesFromServiceLoader;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
@@ -59,7 +61,7 @@ public class Owner extends Person {
 	@Digits(fraction = 0, integer = 10)
 	private String		telephone;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "owner")
 	private Set<Pet>	pets;
 
 
@@ -105,6 +107,9 @@ public class Owner extends Person {
 	}
 
 	public void addPet(final Pet pet) {
+		Pet p = this.getPetsInternal().stream().filter(x -> x.getId().equals(pet.getId())).findFirst().orElse(null);
+		if(p != null)
+			this.getPetsInternal().remove(p);
 		this.getPetsInternal().add(pet);
 		pet.setOwner(this);
 	}
