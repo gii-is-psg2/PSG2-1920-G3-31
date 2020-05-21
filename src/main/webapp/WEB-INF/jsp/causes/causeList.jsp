@@ -15,7 +15,7 @@
             <th>Name</th>
             <th>Organization</th>
             <th>Budget target</th>
-            <th>Donation amount</th>
+            <th>Total donations</th>
         </tr>
         </thead>
         <tbody>

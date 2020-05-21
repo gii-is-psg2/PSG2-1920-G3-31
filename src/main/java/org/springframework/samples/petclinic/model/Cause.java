@@ -115,6 +115,7 @@ public class Cause extends BaseEntity {
 	
 	// Derived properties
 	
+	//Suma de los donativos de una causa
 	public Double getDonationAmount() {
 		return donations.stream().mapToDouble(x -> x.getAmount()).sum();
 	}
