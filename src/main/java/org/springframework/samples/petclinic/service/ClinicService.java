@@ -147,7 +147,17 @@ public class ClinicService {
 
 	@Transactional
 	public void savePet(final Pet pet) throws DataAccessException {
-		this.petRepository.save(pet);
+		Pet p = null;
+		if(pet.getId() != null)
+			 p = this.findPetById(pet.getId());
+		if(p == null)
+			this.petRepository.save(pet);
+		else {
+			p.setBirthDate(pet.getBirthDate());
+			p.setName(pet.getName());
+			p.setType(pet.getType());
+			this.petRepository.save(p);
+		}
 	}
 
 	@Transactional

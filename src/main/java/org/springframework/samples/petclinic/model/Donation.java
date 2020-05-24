@@ -25,7 +25,7 @@ public class Donation extends BaseEntity {
 	@Column(name = "amount")
 	@NotNull
 	@Min(0)
-	private Double		amount;
+	private Double		amount; 
 
 	@Column(name = "client")
 	@NotEmpty
